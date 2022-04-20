@@ -1,0 +1,1 @@
+http://localhost/sensors/dht11.php?temp_c=20&temp_f=66&humidity=33
