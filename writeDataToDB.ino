@@ -4,6 +4,10 @@ void writeDataToDB(void * pvParameters)
 {
   (void) pvParameters;
 
+   TickType_t xLastWakeTime;
+   const TickType_t xFrequency = 3000; // perMinuteDelay; // perSecond; 
+   xLastWakeTime = xTaskGetTickCount();
+   
   struct queueValue
   {
     char structName;
@@ -19,12 +23,12 @@ void writeDataToDB(void * pvParameters)
     struct queueValue currentQueueVal;
     BaseType_t queueRecieveStatus;
     
-   if (xSemaphoreTake(xMutex, 0) == pdTRUE) {
+   // if (xSemaphoreTake(xMutex, 0) == pdTRUE) {
        queueRecieveStatus = xQueueReceive(dataQ, &currentQueueVal, ( TickType_t ) 1000 ); // portMAX_DELAY // ( TickType_t ) 10000 );
-      xSemaphoreGive(xMutex);
-    }else{
-      Serial.println("DB task not able to read the queue, mutext not available.");
-    }
+     // xSemaphoreGive(xMutex);
+   // }else{
+    //  Serial.println("DB task not able to read the queue, mutext not available.");
+   // }
       // Read structure elements from queue and check if data received successfully 
       if(queueRecieveStatus == pdPASS)
       {
@@ -49,7 +53,15 @@ void writeDataToDB(void * pvParameters)
             Serial.print(currentQueueVal.c);
             Serial.println ();
           }
-
+//          }else if (currentQueueVal.structName == 's') {
+//            Serial.println ("Sound");
+//            Serial.print(" a: ");
+//            Serial.print(currentQueueVal.a);
+//            Serial.print(" b: ");
+//            Serial.print(currentQueueVal.b);
+//
+//            Serial.println ();
+//          }
           //    client.print("GET /sensors/dht11.php?temp_c=");
           //    client.print(currentDhtVal.tempC);
           //    client.print("&temp_f=");
@@ -68,7 +80,8 @@ void writeDataToDB(void * pvParameters)
       } else {
         Serial.println ("queue recieve failure");
       }
-    
-    taskYIELD(); // terminate the task and inform schulder about it
+     // vTaskDelayUntil(&xLastWakeTime, xFrequency);
+    // vTaskDelay(3000);
+     taskYIELD(); // terminate the task and inform schulder about it
   }
 }

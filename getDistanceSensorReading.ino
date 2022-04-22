@@ -56,5 +56,4 @@ void getDistanceSensorReading(void *pvParameters)
       }
       
      // taskYIELD(); //terminate the task and inform schulder about it
-  
 }

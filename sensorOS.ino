@@ -23,9 +23,9 @@ DHT HT(temperaturePin, Dht11);
 struct dhtVal 
 {
  char  structName = 't';
- float humidity;
- float tempC;
- float tempF;
+ float humidity = 00.00;
+ float tempC = 00.00;
+ float tempF = 00.00;
 };
 
 struct dhtVal previousDhtVal; // to store previous temperature values
@@ -50,6 +50,16 @@ int digitalSoundSensorPin = 8; //digital signal
 int analogSoundSensorPin = A0; // analog signal
 int digitalSoundSensorValue; //TODO : consider going local?
 int analogSoundSensorValue; //TODO: consider going local? 
+
+struct soundVal 
+{
+ char structName = 's';
+ float digital = 0;
+ float analog = 700;
+ float empty =0.0;
+};
+
+struct soundVal acceptableVal;
 
 // Function Headers
 void getTempSensorReading(void *pvParameters);
@@ -140,6 +150,22 @@ void setup()
               NULL, 
               3, // Priority
               &taskDistanceSensorReading); 
+  
+//   //Analog sound sensor reading
+//  xTaskCreate(getAnalogSoundSensorReading, // Task function
+//              "AnalogSoundSensorReading", // Task name
+//              1024, // Stack size 
+//              NULL, 
+//              3, // Priority
+//              &taskAnalogSoundSensorReading); // Task handler
+
+//  //Digital sound sensor reading
+//  xTaskCreate(getDigitalSoundSensorReading, // Task function
+//              "DigitalSoundSensorReading", // Task name
+//              1024, // Stack size 
+//              NULL, 
+//              3, // Priority
+//              &taskDigitalSoundSensorReading); // Task handler
     
   }
 
