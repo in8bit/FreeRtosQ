@@ -1,5 +1,6 @@
 
 // localhost/sensors/dht11.php?temp_c=20&temp_f=66&humidity=33
+// localhost/sensors/distance.php?distance_cm=10&distance_inch=2.3&distance_mm=0
 void writeDataToDB(void * pvParameters)
 {
   (void) pvParameters;
@@ -43,6 +44,25 @@ void writeDataToDB(void * pvParameters)
             Serial.print(" c: ");
             Serial.print(currentQueueVal.c);
             Serial.println ();
+           
+            if (isnan(currentQueueVal.b)|| isnan(currentQueueVal.c) || isnan(currentQueueVal.a)){
+              currentQueueVal.a = 0.0;
+              currentQueueVal.b = 0.0;
+              currentQueueVal.c = 0.0;
+            }
+              client.print("GET /sensors/dht11.php?temp_c=");
+              client.print(currentQueueVal.c);
+              client.print("&temp_f=");
+              client.print(currentQueueVal.b);
+              client.print("&humidity=");
+              client.print(currentQueueVal.a);
+              client.print(" ");      //SPACE BEFORE HTTP/1.1
+              client.print("HTTP/1.1");
+              client.println();
+              client.println("Host: 192.168.3.25");
+              client.println("Connection: close");
+              client.println();
+              
           } else if (currentQueueVal.structName == 'd') {
             Serial.println ("Distance");
             Serial.print(" a: ");
@@ -52,6 +72,24 @@ void writeDataToDB(void * pvParameters)
             Serial.print(" c: ");
             Serial.print(currentQueueVal.c);
             Serial.println ();
+            
+            if (isnan(currentQueueVal.b)|| isnan(currentQueueVal.c) || isnan(currentQueueVal.a)){
+             currentQueueVal.a = 0.0;
+             currentQueueVal.b = 0.0;
+             currentQueueVal.c = 0.0;
+            }
+              client.print("GET /sensors/distance.php?distance_cm=");
+              client.print(currentQueueVal.a);
+              client.print("&distance_inch=");
+              client.print(currentQueueVal.b);
+              client.print("&distance_mm=");
+              client.print(currentQueueVal.c);
+              client.print(" ");      //SPACE BEFORE HTTP/1.1
+              client.print("HTTP/1.1");
+              client.println();
+              client.println("Host: 192.168.3.25");
+              client.println("Connection: close");
+              client.println();
           }
 //          }else if (currentQueueVal.structName == 's') {
 //            Serial.println ("Sound");
@@ -62,18 +100,7 @@ void writeDataToDB(void * pvParameters)
 //
 //            Serial.println ();
 //          }
-          //    client.print("GET /sensors/dht11.php?temp_c=");
-          //    client.print(currentDhtVal.tempC);
-          //    client.print("&temp_f=");
-          //    client.print(currentDhtVal.tempF);
-          //    client.print("&humidity=");
-          //    client.print(currentDhtVal.humidity);
-          //    client.print(" ");      //SPACE BEFORE HTTP/1.1
-          //    client.print("HTTP/1.1");
-          //    client.println();
-          //    client.println("Host: 192.168.3.25");
-          //    client.println("Connection: close");
-          //    client.println();
+          
         } else {
           Serial.println ("connection failure");
         }

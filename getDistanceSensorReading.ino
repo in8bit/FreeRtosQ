@@ -1,4 +1,4 @@
-// localhost/sensors/distance.php?distance=200
+
 // distance sensor
 void getDistanceSensorReading(void *pvParameters)
 {

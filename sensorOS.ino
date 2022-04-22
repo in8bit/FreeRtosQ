@@ -143,13 +143,13 @@ void setup()
               3, // highest Priority
               &taskTemperatureSensorReading); 
 
-  //Distance sensor reading
-  xTaskCreate(getDistanceSensorReading, // Task function
-              "DistanceSensorReading", // Task name
-              1024,  
-              NULL, 
-              3, // Priority
-              &taskDistanceSensorReading); 
+//  //Distance sensor reading
+//  xTaskCreate(getDistanceSensorReading, // Task function
+//              "DistanceSensorReading", // Task name
+//              1024,  
+//              NULL, 
+//              3, // Priority
+//              &taskDistanceSensorReading); 
   
 //   //Analog sound sensor reading
 //  xTaskCreate(getAnalogSoundSensorReading, // Task function
