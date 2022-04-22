@@ -128,7 +128,7 @@ void setup()
   //Temperature sensor reading
   xTaskCreate(getTempSensorReading, // Task function
               "TempSensorReading", // Task name
-              500, 
+              800, 
               NULL, 
               3, // highest Priority
               &taskTemperatureSensorReading); 
@@ -136,7 +136,7 @@ void setup()
   //Distance sensor reading
   xTaskCreate(getDistanceSensorReading, // Task function
               "DistanceSensorReading", // Task name
-              500,  
+              800,  
               NULL, 
               3, // Priority
               &taskDistanceSensorReading); 
