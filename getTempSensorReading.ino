@@ -21,15 +21,16 @@ void getTempSensorReading(void *pvParameters)
                   currentDhtVal.tempC != previousDhtVal.tempC || 
                   currentDhtVal.tempF != previousDhtVal.tempF )
     {
-       previousDhtVal.humidity = previousDhtVal.tempF;
+       if(xSemaphoreTake(xMutex, 0) == pdTRUE){
+         xQueueSend(dataQ, &currentDhtVal, portMAX_DELAY); 
+         xSemaphoreGive(xMutex);
+
+       previousDhtVal.humidity = currentDhtVal.humidity;
        previousDhtVal.tempC = currentDhtVal.tempC;
        previousDhtVal.tempF = currentDhtVal.tempF;
-      // if(xSemaphoreTake(xMutex, 0) == pdTRUE){
-         xQueueSend(dataQ, &currentDhtVal, portMAX_DELAY); 
-        // xSemaphoreGive(xMutex);
-     // }else{
-        //  Serial.println("Temperature Sensor not able to update queue, mutext not available.");
-       // }
+      }else{
+          Serial.println("Temperature Sensor not able to update queue, mutext not available.");
+        }
       
     }
     vTaskDelayUntil(&xLastWakeTime, xFrequency);

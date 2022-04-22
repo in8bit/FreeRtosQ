@@ -120,7 +120,7 @@ void setup()
     //Create task that consumes the queue if it was created.
     xTaskCreate(writeDataToDB, // Task function
                 "WriteDataToDB", // A name just for humans
-                1000,  // This stack size can be checked & adjusted by reading the Stack Highwater
+                1500,  // This stack size can be checked & adjusted by reading the Stack Highwater
                 NULL, 
                 1, // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
                 &taskWriteDataToDB);
@@ -128,7 +128,7 @@ void setup()
   //Temperature sensor reading
   xTaskCreate(getTempSensorReading, // Task function
               "TempSensorReading", // Task name
-              800, 
+              1024, 
               NULL, 
               3, // highest Priority
               &taskTemperatureSensorReading); 
@@ -136,7 +136,7 @@ void setup()
   //Distance sensor reading
   xTaskCreate(getDistanceSensorReading, // Task function
               "DistanceSensorReading", // Task name
-              800,  
+              1024,  
               NULL, 
               3, // Priority
               &taskDistanceSensorReading); 

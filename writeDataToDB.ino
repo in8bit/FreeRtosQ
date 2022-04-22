@@ -19,15 +19,13 @@ void writeDataToDB(void * pvParameters)
     struct queueValue currentQueueVal;
     BaseType_t queueRecieveStatus;
     
-   // if (xSemaphoreTake(xMutex, 0) == pdTRUE) {
-       queueRecieveStatus = xQueueReceive(dataQ, &currentQueueVal, portMAX_DELAY); // ( TickType_t ) 10000 );
-     // xSemaphoreGive(xMutex);
-   // }else{
-    //  Serial.println("DB task not able to read the queue, mutext not available.");
-  //  }
-      // Read structure elements from queue and check if data received successfully
-      // if (xQueueReceive(dataQ, &currentQueueVal, portMAX_DELAY) == pdPASS)
-     
+   if (xSemaphoreTake(xMutex, 0) == pdTRUE) {
+       queueRecieveStatus = xQueueReceive(dataQ, &currentQueueVal, ( TickType_t ) 1000 ); // portMAX_DELAY // ( TickType_t ) 10000 );
+      xSemaphoreGive(xMutex);
+    }else{
+      Serial.println("DB task not able to read the queue, mutext not available.");
+    }
+      // Read structure elements from queue and check if data received successfully 
       if(queueRecieveStatus == pdPASS)
       {
         //connection check
@@ -39,7 +37,7 @@ void writeDataToDB(void * pvParameters)
             Serial.print(" b: ");
             Serial.print(currentQueueVal.b);
             Serial.print(" c: ");
-            Serial.print(currentQueueVal.b);
+            Serial.print(currentQueueVal.c);
             Serial.println ();
           } else if (currentQueueVal.structName == 'd') {
             Serial.println ("Distance");
@@ -48,7 +46,7 @@ void writeDataToDB(void * pvParameters)
             Serial.print(" b: ");
             Serial.print(currentQueueVal.b);
             Serial.print(" c: ");
-            Serial.print(currentQueueVal.b);
+            Serial.print(currentQueueVal.c);
             Serial.println ();
           }
 
